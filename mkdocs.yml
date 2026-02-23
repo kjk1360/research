@@ -62,9 +62,11 @@ nav:
     - finance/index.md
   - Reports:
     - _reports/index.md
+  - Questions: questions.md
 
 extra:
   social: []
 
 extra_javascript:
   - assets/js/auth.js
+  - assets/js/new-badge.js

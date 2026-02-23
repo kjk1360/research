@@ -1,0 +1,33 @@
+name: Research Question
+description: 리서치 요청을 등록합니다
+title: "[Research] "
+labels: ["research-question"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: 리서치 질문
+      description: 어떤 내용을 리서치하길 원하시나요?
+      placeholder: "예: 2025년 하이퍼캐주얼 게임 시장 규모와 성장률 분석"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: 분야
+      options:
+        - gaming
+        - marketing
+        - creative
+        - finance
+        - report
+    validations:
+      required: true
+  - type: input
+    id: notify_email
+    attributes:
+      label: 알림 이메일 (선택)
+      description: 리서치 완료 시 알림을 받을 이메일
+      placeholder: "example@email.com"
+    validations:
+      required: false
