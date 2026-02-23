@@ -162,6 +162,26 @@ def update_mkdocs():
         yaml.dump(config, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
 
 
+def generate_new_data(all_files):
+    """Generate JS data file with list of NEW research titles."""
+    import json
+    new_files = [f for f in all_files if is_new(f["date"], 48)]
+    new_titles = [f["title"] for f in new_files]
+    # Also include section names that contain new items
+    new_sections = set()
+    for f in new_files:
+        parts = f["path"].split("/")
+        if parts:
+            for sname, slabel in SECTION_NAMES.items():
+                if f["path"].startswith(sname + "/"):
+                    new_sections.add(slabel)
+    data = {"titles": new_titles, "sections": list(new_sections)}
+    js_path = os.path.join(DOCS_DIR, "assets", "js", "research-data.js")
+    os.makedirs(os.path.dirname(js_path), exist_ok=True)
+    with open(js_path, "w") as fp:
+        fp.write("window.__RESEARCH_NEW = " + json.dumps(data, ensure_ascii=False) + ";\n")
+
+
 if __name__ == "__main__":
     all_files = get_research_files()
 
@@ -174,6 +194,9 @@ if __name__ == "__main__":
         if os.path.isdir(section_dir):
             section_files = get_research_files(section_dir)
             generate_section_page(dirname, SECTION_NAMES[dirname], section_files)
+
+    # Generate NEW data for JS
+    generate_new_data(all_files)
 
     # Update nav
     update_mkdocs()

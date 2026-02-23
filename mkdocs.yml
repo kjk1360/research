@@ -66,4 +66,5 @@ extra:
   social: []
 extra_javascript:
 - assets/js/auth.js
+- assets/js/research-data.js
 - assets/js/new-badge.js
