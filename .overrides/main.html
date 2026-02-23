@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="password-gate" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:var(--md-default-bg-color); z-index:9999; display:flex; align-items:center; justify-content:center;">
+  <div style="text-align:center; padding:2rem;">
+    <h2 style="margin-bottom:1rem;">🔒 Access Required</h2>
+    <p style="margin-bottom:1.5rem; color:var(--md-default-fg-color--light);">비밀번호를 입력하세요</p>
+    <input id="pwd-input" type="password" placeholder="Password"
+      style="padding:0.75rem 1rem; font-size:1rem; border:2px solid var(--md-primary-fg-color); border-radius:8px; outline:none; width:280px; background:var(--md-default-bg-color); color:var(--md-default-fg-color);"
+      onkeydown="if(event.key==='Enter')checkPwd()">
+    <br>
+    <button onclick="checkPwd()"
+      style="margin-top:1rem; padding:0.75rem 2rem; font-size:1rem; background:var(--md-primary-fg-color); color:var(--md-primary-bg-color); border:none; border-radius:8px; cursor:pointer;">
+      Enter
+    </button>
+    <p id="pwd-error" style="color:#f44336; margin-top:0.75rem; display:none;">잘못된 비밀번호입니다</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // SHA-256 hash of the password - change RESEARCH_PWD_HASH to update
+  const HASH = "d83036ffb5b49a153bc391fd12b4a10df06bbb200f39fed97c331b03b6833ce7";
+  const KEY = "research_auth";
+
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+  }
+
+  async function verify(pwd) {
+    return (await sha256(pwd)) === HASH;
+  }
+
+  const gate = document.getElementById("password-gate");
+  const stored = sessionStorage.getItem(KEY);
+
+  if (stored === HASH) {
+    gate.style.display = "none";
+  } else {
+    gate.style.display = "flex";
+    document.querySelector(".md-content").style.visibility = "hidden";
+  }
+
+  window.checkPwd = async function() {
+    const input = document.getElementById("pwd-input").value;
+    if (await verify(input)) {
+      sessionStorage.setItem(KEY, HASH);
+      gate.style.display = "none";
+      document.querySelector(".md-content").style.visibility = "visible";
+    } else {
+      document.getElementById("pwd-error").style.display = "block";
+    }
+  };
+})();
+</script>
+
+{{ super() }}
+{% endblock %}
