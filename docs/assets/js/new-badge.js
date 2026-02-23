@@ -1,44 +1,68 @@
-// Add NEW badge to sidebar nav items and tabs for recent research (within 48h)
+// Add NEW badge to sidebar nav items and tabs for recent research
 (function(){
-  const TWO_DAYS = 48 * 60 * 60 * 1000;
-  const now = Date.now();
-
-  function addBadge(el) {
-    if (el.querySelector(".new-badge")) return;
-    const badge = document.createElement("span");
-    badge.className = "new-badge";
-    badge.textContent = "NEW";
-    badge.style.cssText = "background:#f38ba8;color:#1e1e2e;font-size:0.55rem;font-weight:bold;padding:0.1rem 0.35rem;border-radius:3px;margin-left:0.4rem;vertical-align:middle;line-height:1;";
-    el.appendChild(badge);
-  }
+  var TWO_DAYS = 48 * 60 * 60 * 1000;
 
   function isRecent(dateStr) {
-    if (!dateStr) return false;
     try {
-      const d = new Date(dateStr + "T00:00:00");
-      return (now - d.getTime()) < TWO_DAYS;
+      return (Date.now() - new Date(dateStr + "T12:00:00").getTime()) < TWO_DAYS;
     } catch(e) { return false; }
   }
 
-  // Sidebar nav links + content links
-  document.querySelectorAll(".md-nav__link, .md-content a").forEach(function(el) {
-    const href = el.getAttribute("href") || "";
-    const text = el.textContent || "";
-    const dateMatch = (href + " " + text).match(/(\d{4}-\d{2}-\d{2})/);
-    if (dateMatch && isRecent(dateMatch[1])) {
-      addBadge(el);
-    }
-  });
+  function applyBadges() {
+    // Remove any existing badges first (prevent duplicates on re-run)
+    document.querySelectorAll(".new-badge").forEach(function(b) { b.remove(); });
 
-  // Tab labels - check if any child in that section is new
-  document.querySelectorAll(".md-tabs__link").forEach(function(tab) {
-    const href = tab.getAttribute("href") || "";
-    // Find matching sidebar section
-    const section = href.replace(/^\/research\//, "").replace(/\/$/, "").split("/")[0];
-    if (!section) return;
-    const hasNew = document.querySelector('.md-nav__link[href*="' + section + '/"] .new-badge');
-    if (hasNew) {
-      addBadge(tab);
-    }
-  });
+    // Sidebar nav links only
+    document.querySelectorAll(".md-nav__link").forEach(function(el) {
+      var href = el.getAttribute("href") || "";
+      var m = href.match(/(\d{4}-\d{2}-\d{2})/);
+      if (!m) return;
+      if (!isRecent(m[1])) return;
+
+      var badge = document.createElement("span");
+      badge.className = "new-badge";
+      badge.textContent = "NEW";
+      badge.style.cssText = "background:#f38ba8;color:#1e1e2e;font-size:0.55rem;font-weight:bold;padding:2px 5px;border-radius:3px;margin-left:6px;vertical-align:middle;line-height:1;display:inline-block;";
+      el.appendChild(badge);
+    });
+
+    // Also check active page (no href, but has aria-current or --active class)
+    document.querySelectorAll(".md-nav__link--active, .md-nav__link[aria-current]").forEach(function(el) {
+      if (el.querySelector(".new-badge")) return;
+      // Check the page URL itself for a date
+      var m = window.location.pathname.match(/(\d{4}-\d{2}-\d{2})/);
+      if (m && isRecent(m[1])) {
+        var badge = document.createElement("span");
+        badge.className = "new-badge";
+        badge.textContent = "NEW";
+        badge.style.cssText = "background:#f38ba8;color:#1e1e2e;font-size:0.55rem;font-weight:bold;padding:2px 5px;border-radius:3px;margin-left:6px;vertical-align:middle;line-height:1;display:inline-block;";
+        el.appendChild(badge);
+      }
+    });
+
+    // Tab labels - add badge if section contains any new items
+    document.querySelectorAll(".md-tabs__link").forEach(function(tab) {
+      var href = tab.getAttribute("href") || "";
+      var section = href.replace(/^.*\/research\//, "").replace(/\/$/, "").split("/")[0];
+      if (!section) return;
+      var hasNew = document.querySelector('.md-nav__link[href*="/' + section + '/"] .new-badge') ||
+                   document.querySelector('.md-nav__link[href*="' + section + '/"] .new-badge');
+      if (hasNew) {
+        var badge = document.createElement("span");
+        badge.className = "new-badge";
+        badge.textContent = "NEW";
+        badge.style.cssText = "background:#f38ba8;color:#1e1e2e;font-size:0.55rem;font-weight:bold;padding:2px 5px;border-radius:3px;margin-left:6px;vertical-align:middle;line-height:1;display:inline-block;";
+        tab.appendChild(badge);
+      }
+    });
+  }
+
+  // Run after DOM is fully rendered (MkDocs Material does post-load DOM work)
+  if (document.readyState === "complete") {
+    setTimeout(applyBadges, 150);
+  } else {
+    window.addEventListener("load", function() {
+      setTimeout(applyBadges, 150);
+    });
+  }
 })();
