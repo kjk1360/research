@@ -4,7 +4,6 @@ site_url: https://kjk1360.github.io/research
 
 theme:
   name: material
-  custom_dir: .overrides
   language: ko
   palette:
     - scheme: slate
@@ -20,7 +19,6 @@ theme:
         icon: material/brightness-7
         name: 다크 모드
   features:
-    - navigation.instant
     - navigation.tabs
     - navigation.sections
     - navigation.expand
@@ -67,3 +65,6 @@ nav:
 
 extra:
   social: []
+
+extra_javascript:
+  - assets/js/auth.js
