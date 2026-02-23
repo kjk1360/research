@@ -87,8 +87,9 @@ for issue in issues:
     date = datetime.now().strftime("%Y-%m-%d")
     now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    # Create slug
-    slug = re.sub(r"[^a-zA-Z0-9가-힣\s-]", "", question[:60])
+    # Create slug from title (not question body) - keep short
+    slug_src = title.replace("[Research] ", "").strip()[:40]
+    slug = re.sub(r"[^a-zA-Z0-9가-힣\s-]", "", slug_src)
     slug = re.sub(r"\s+", "-", slug).lower() or "research"
     filename = f"{date}_{slug}.md"
     filepath = os.path.join(DOCS_DIR, subdir, filename)
