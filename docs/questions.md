@@ -16,48 +16,71 @@
 
 <script>
 const REPO = "kjk1360/research";
-const API = "https://api.github.com/repos/" + REPO + "/issues";
+const API = "https://api.github.com/repos/" + REPO;
 
 async function loadQuestions() {
   try {
     const [openRes, closedRes] = await Promise.all([
-      fetch(API + "?state=open&labels=research-question&per_page=20"),
-      fetch(API + "?state=closed&labels=research-question&per_page=20")
+      fetch(API + "/issues?state=open&labels=research-question&per_page=20"),
+      fetch(API + "/issues?state=closed&labels=research-question&per_page=20&sort=updated&direction=desc")
     ]);
     const open = await openRes.json();
     const closed = await closedRes.json();
 
+    // Pending
     const pendingEl = document.getElementById("pending-questions");
-    const completedEl = document.getElementById("completed-questions");
-
-    if (open.length === 0) {
+    if (!open.length) {
       pendingEl.innerHTML = '<p style="color:var(--md-default-fg-color--light);">현재 대기 중인 요청이 없습니다.</p>';
     } else {
-      pendingEl.innerHTML = '<table><thead><tr><th>요청</th><th>분야</th><th>등록일</th><th>예상</th></tr></thead><tbody>' +
+      pendingEl.innerHTML = '<table><thead><tr><th>요청</th><th>분야</th><th>등록일</th><th>상태</th></tr></thead><tbody>' +
         open.map(i => {
           const date = new Date(i.created_at);
           const cat = extractField(i.body, "분야") || "-";
           const age = Math.floor((Date.now() - date) / 60000);
-          const eta = age < 15 ? "다음 주기" : "곧 처리";
-          return '<tr><td>' + escHtml(i.title.replace("[Research] ","")) + '</td><td><code>' + cat + '</code></td><td>' + formatDate(date) + '</td><td>' + eta + '</td></tr>';
+          const status = age < 15 ? "⏳ 다음 주기" : "🔄 처리 중";
+          return '<tr><td>' + esc(i.title.replace("[Research] ","")) + '</td><td><code>' + cat + '</code></td><td>' + fmt(date) + '</td><td>' + status + '</td></tr>';
         }).join("") + '</tbody></table>';
     }
 
-    if (closed.length === 0) {
+    // Completed - fetch comments to get result links
+    const completedEl = document.getElementById("completed-questions");
+    if (!closed.length) {
       completedEl.innerHTML = '<p style="color:var(--md-default-fg-color--light);">아직 완료된 리서치가 없습니다.</p>';
-    } else {
-      completedEl.innerHTML = '<table><thead><tr><th>요청</th><th>분야</th><th>완료일</th><th>결과</th></tr></thead><tbody>' +
-        closed.map(i => {
-          const date = new Date(i.closed_at);
-          const cat = extractField(i.body, "분야") || "-";
-          const link = extractLink(i.body, i.labels);
-          return '<tr><td>' + escHtml(i.title.replace("[Research] ","")) + '</td><td><code>' + cat + '</code></td><td>' + formatDate(date) + '</td><td>' + (link ? '<a href="' + link + '">보기</a>' : '완료') + '</td></tr>';
-        }).join("") + '</tbody></table>';
+      return;
     }
+
+    // Fetch comments for all closed issues in parallel
+    const commentPromises = closed.map(i =>
+      fetch(API + "/issues/" + i.number + "/comments?per_page=5")
+        .then(r => r.json())
+        .catch(() => [])
+    );
+    const allComments = await Promise.all(commentPromises);
+
+    completedEl.innerHTML = '<table><thead><tr><th>요청</th><th>분야</th><th>완료일</th><th>결과</th></tr></thead><tbody>' +
+      closed.map((i, idx) => {
+        const date = new Date(i.closed_at);
+        const cat = extractField(i.body, "분야") || "-";
+        const link = findResultLink(allComments[idx]);
+        const resultCell = link
+          ? '<a href="' + link + '" style="font-weight:bold;">📄 보기</a>'
+          : '<span style="color:var(--md-default-fg-color--light);">완료</span>';
+        return '<tr><td>' + esc(i.title.replace("[Research] ","")) + '</td><td><code>' + cat + '</code></td><td>' + fmt(date) + '</td><td>' + resultCell + '</td></tr>';
+      }).join("") + '</tbody></table>';
+
   } catch(e) {
-    document.getElementById("pending-questions").innerHTML = '<p>Issues 로딩 실패. GitHub API 제한일 수 있습니다.</p>';
+    document.getElementById("pending-questions").innerHTML = '<p>로딩 실패. 새로고침 해주세요.</p>';
     document.getElementById("completed-questions").innerHTML = '';
   }
+}
+
+function findResultLink(comments) {
+  if (!comments || !comments.length) return null;
+  for (const c of comments) {
+    const m = (c.body || "").match(/\[결과 보기\]\((.*?)\)/);
+    if (m) return m[1];
+  }
+  return null;
 }
 
 function extractField(body, field) {
@@ -66,17 +89,11 @@ function extractField(body, field) {
   return m ? m[1].trim() : null;
 }
 
-function extractLink(body, labels) {
-  if (!body) return null;
-  const m = body.match(/\[결과 보기\]\((.*?)\)/);
-  return m ? m[1] : null;
-}
-
-function formatDate(d) {
+function fmt(d) {
   return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0") + " " + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
 }
 
-function escHtml(s) {
+function esc(s) {
   const d = document.createElement("div");
   d.textContent = s;
   return d.innerHTML;

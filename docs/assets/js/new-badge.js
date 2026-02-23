@@ -1,36 +1,44 @@
-// Add NEW badge to research items updated within 6 hours
+// Add NEW badge to sidebar nav items and tabs for recent research (within 48h)
 (function(){
-  const SIX_HOURS = 6 * 60 * 60 * 1000;
+  const TWO_DAYS = 48 * 60 * 60 * 1000;
   const now = Date.now();
 
-  document.querySelectorAll(".md-nav__link, .md-content a").forEach(function(el) {
-    const text = el.textContent || "";
-    // Match date pattern YYYY-MM-DD in link text or href
-    const href = el.getAttribute("href") || "";
-    const dateMatch = (href + " " + text).match(/(\d{4}-\d{2}-\d{2})/);
-    if (!dateMatch) return;
+  function addBadge(el) {
+    if (el.querySelector(".new-badge")) return;
+    const badge = document.createElement("span");
+    badge.className = "new-badge";
+    badge.textContent = "NEW";
+    badge.style.cssText = "background:#f38ba8;color:#1e1e2e;font-size:0.55rem;font-weight:bold;padding:0.1rem 0.35rem;border-radius:3px;margin-left:0.4rem;vertical-align:middle;line-height:1;";
+    el.appendChild(badge);
+  }
 
-    const fileDate = new Date(dateMatch[1] + "T00:00:00");
-    if (now - fileDate.getTime() < SIX_HOURS * 4) { // Within 24h for date-based (generous for daily files)
-      const badge = document.createElement("span");
-      badge.textContent = "NEW";
-      badge.style.cssText = "background:#f38ba8;color:#1e1e2e;font-size:0.6rem;font-weight:bold;padding:0.1rem 0.4rem;border-radius:4px;margin-left:0.5rem;vertical-align:middle;";
-      el.appendChild(badge);
+  function isRecent(dateStr) {
+    if (!dateStr) return false;
+    try {
+      const d = new Date(dateStr + "T00:00:00");
+      return (now - d.getTime()) < TWO_DAYS;
+    } catch(e) { return false; }
+  }
+
+  // Sidebar nav links + content links
+  document.querySelectorAll(".md-nav__link, .md-content a").forEach(function(el) {
+    const href = el.getAttribute("href") || "";
+    const text = el.textContent || "";
+    const dateMatch = (href + " " + text).match(/(\d{4}-\d{2}-\d{2})/);
+    if (dateMatch && isRecent(dateMatch[1])) {
+      addBadge(el);
     }
   });
 
-  // Also check via git commit metadata if available
-  const meta = document.querySelector('meta[name="last-updated"]');
-  if (meta) {
-    const updated = new Date(meta.content);
-    if (now - updated.getTime() < SIX_HOURS) {
-      const title = document.querySelector("h1");
-      if (title) {
-        const badge = document.createElement("span");
-        badge.textContent = "NEW";
-        badge.style.cssText = "background:#f38ba8;color:#1e1e2e;font-size:0.7rem;font-weight:bold;padding:0.15rem 0.5rem;border-radius:4px;margin-left:0.75rem;vertical-align:middle;";
-        title.appendChild(badge);
-      }
+  // Tab labels - check if any child in that section is new
+  document.querySelectorAll(".md-tabs__link").forEach(function(tab) {
+    const href = tab.getAttribute("href") || "";
+    // Find matching sidebar section
+    const section = href.replace(/^\/research\//, "").replace(/\/$/, "").split("/")[0];
+    if (!section) return;
+    const hasNew = document.querySelector('.md-nav__link[href*="' + section + '/"] .new-badge');
+    if (hasNew) {
+      addBadge(tab);
     }
-  }
+  });
 })();
