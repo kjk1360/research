@@ -156,8 +156,9 @@ RESEARCH QUESTION: {question}""")
 
         site_url = f"https://kjk1360.github.io/research/{subdir}/{filename.replace('.md', '')}/"
 
-        # Git commit and push
+        # Update nav and git commit/push
         os.chdir(RESEARCH_DIR)
+        subprocess.run(["python3", os.path.join(RESEARCH_DIR, "scripts", "update-nav.py")], capture_output=True)
         subprocess.run(["git", "add", "-A"], capture_output=True)
         subprocess.run(["git", "commit", "-m", f"Research: {title} (Issue #{num})"], capture_output=True)
         subprocess.run(["git", "push"], capture_output=True)

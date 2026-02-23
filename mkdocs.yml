@@ -1,72 +1,68 @@
 site_name: Research Hub
 site_description: Personal Research Archive
 site_url: https://kjk1360.github.io/research
-
 theme:
   name: material
   language: ko
   palette:
-    - scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-4
-        name: 라이트 모드
-    - scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/brightness-7
-        name: 다크 모드
+  - scheme: slate
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/brightness-4
+      name: 라이트 모드
+  - scheme: default
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/brightness-7
+      name: 다크 모드
   features:
-    - navigation.tabs
-    - navigation.sections
-    - navigation.expand
-    - search.highlight
-    - search.suggest
-    - content.code.copy
+  - navigation.tabs
+  - navigation.sections
+  - navigation.expand
+  - search.highlight
+  - search.suggest
+  - content.code.copy
   icon:
     repo: fontawesome/brands/github
-
 plugins:
-  - search:
-      lang:
-        - ko
-        - en
-  - tags
-
+- search:
+    lang:
+    - ko
+    - en
+- tags
 markdown_extensions:
-  - tables
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - attr_list
-  - md_in_html
-  - toc:
-      permalink: true
-
+- tables
+- admonition
+- pymdownx.details
+- pymdownx.superfences
+- pymdownx.highlight:
+    anchor_linenums: true
+- pymdownx.tasklist:
+    custom_checkbox: true
+- attr_list
+- md_in_html
+- toc:
+    permalink: true
 nav:
-  - Home: index.md
-  - Gaming:
-    - gaming/index.md
-    - gaming/market/2026-02-22_casual-idle-rpg-ad-creatives-analysis.md
-  - Marketing:
-    - marketing/index.md
-  - Creative:
-    - creative/index.md
-  - Finance:
-    - finance/index.md
-  - Reports:
-    - _reports/index.md
-  - Questions: questions.md
-
+- Home: index.md
+- Gaming:
+  - gaming/index.md
+  - gaming/market/2026-02-22_casual-idle-rpg-ad-creatives-analysis.md
+  - gaming/trends/2026-02-22_2025년-하이퍼캐주얼-게임-시장의-주요-동향과-변화를-분석해줘-특히-매출-규모-주요-퍼블리셔-새로운-.md
+  - gaming/trends/2026-02-22_2026년-급성장하는-게임의-세부-장르.md
+- Marketing:
+  - marketing/index.md
+- Creative:
+  - creative/index.md
+- Finance:
+  - finance/index.md
+- Reports:
+  - _reports/index.md
+- Questions: questions.md
 extra:
   social: []
-
 extra_javascript:
-  - assets/js/auth.js
-  - assets/js/new-badge.js
+- assets/js/auth.js
+- assets/js/new-badge.js
