@@ -11,9 +11,10 @@
 | 2026-02-22 | Gaming/Market | 하이퍼캐주얼 게임 시장 규모 & 매출 데이터 2025 | gaming/2026-02-22_hypercasual-game-market-size-2025.md | high |
 | 2026-02-22 | Gaming/Market | 캐주얼/방치형 RPG 모바일 광고 소재 분석 | gaming/market/2026-02-22_casual-idle-rpg-ad-creatives-analysis.md | high |
 | 2026-02-22 | Gaming/Trends | 2025년 하이퍼캐주얼 게임 시장 주요 동향과 변화 분석 | docs/gaming/trends/2026-02-22_2025년-하이퍼캐주얼-게임-시장의-주요-동향과-변화를-분석해줘-특히-매출-규모-주요-퍼블리셔-새로운-.md | medium |
+| 2026-02-22 | Gaming/Trends | 2025년 하반기 급성장 모바일 게임 세부 장르 분석 및 2026년 전망 | docs/gaming/trends/2026-02-22_2026년-급성장하는-게임의-세부-장르.md | medium |
 
 ## 분야별 리서치 수
-- Gaming: 6
+- Gaming: 7
 - Marketing: 0
 - Creative: 0
 - Finance: 0
