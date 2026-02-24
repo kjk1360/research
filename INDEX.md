@@ -5,6 +5,10 @@
 ## 최근 리서치
 | 날짜 | 분야 | 제목 | 경로 | 신뢰도 |
 |------|------|------|------|--------|
+| 2026-02-23 | Creative/AI | 2026년 게임 산업 AI 도입 현황: 코딩 어시스턴트부터 에셋 자동화까지 | docs/creative/content/2026-02-23_2026-게임-산업-ai-도입-현황.md | medium |
+| 2026-02-23 | Gaming/AI | 게임 산업 AI 시장 데이터 및 기술 전망 2026-2030 | gaming/2026-02-23_ai-gaming-market-data-tech-forecast-2026-2030.md | high |
+| 2026-02-23 | Gaming/Tech | AI 에셋 제작 자동화 현황 (2D/3D/음악/애니/PCG) 2025-2026 | gaming/tech/2026-02-23_AI-asset-automation-2025-2026.md | high |
+| 2026-02-23 | Gaming/Tech | AI 코딩 어시스턴트 게임 개발 활용 현황 (2024–2026) | gaming/2026-02-23_ai-coding-assistant-game-development-2025.md | high |
 | 2026-02-23 | Finance/Analysis | 2026년 첨단 기술 기반 개인 투자 전략 및 미래 예측 | docs/finance/analysis/2026-02-23_2026년-투자-관련-리서치-및-미래-예측.md | medium |
 | 2026-02-23 | Finance/Strategy | 기술 투자 신호 체계 및 진입/퇴출 전략 | finance/2026-02-23_tech-investment-signals-entry-exit-strategy.md | high |
 | 2026-02-23 | Finance/Cleantech | 환경/클린테크 투자 동향 (2020-2023) | finance/2026-02-23_cleantech-investment-trends-2020-2023.md | high |
@@ -20,9 +24,9 @@
 | 2026-02-22 | Gaming/Trends | 2025년 글로벌 모바일 게임 AI 크리에이티브 활용 사례와 실효성 검증 | docs/gaming/trends/2026-02-22_2025년-글로벌-모바일-게임-ai-크리에이티브-활용-사례와-실효성-검증.md | medium |
 
 ## 분야별 리서치 수
-- Gaming: 8
+- Gaming: 11
 - Marketing: 0
-- Creative: 0
+- Creative: 1
 - Finance: 4
 - Reports: 1
 - Tech/Mobile: 1 (Reports 포함)
