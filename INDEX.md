@@ -5,6 +5,7 @@
 ## 최근 리서치
 | 날짜 | 분야 | 제목 | 경로 | 신뢰도 |
 |------|------|------|------|--------|
+| 2026-02-23 | Creative/AI | 게임 산업 크리에이티브 분야(광고 소재, 영상, 이미지) AI 기술 도입 현황 | docs/creative/content/2026-02-23_2026-게임-크리에이티-ai-도입-현황.md | medium |
 | 2026-02-23 | Creative/AI | 2026년 게임 산업 AI 도입 현황: 코딩 어시스턴트부터 에셋 자동화까지 | docs/creative/content/2026-02-23_2026-게임-산업-ai-도입-현황.md | medium |
 | 2026-02-23 | Gaming/AI | 게임 산업 AI 시장 데이터 및 기술 전망 2026-2030 | gaming/2026-02-23_ai-gaming-market-data-tech-forecast-2026-2030.md | high |
 | 2026-02-23 | Gaming/Tech | AI 에셋 제작 자동화 현황 (2D/3D/음악/애니/PCG) 2025-2026 | gaming/tech/2026-02-23_AI-asset-automation-2025-2026.md | high |
@@ -26,7 +27,7 @@
 ## 분야별 리서치 수
 - Gaming: 11
 - Marketing: 0
-- Creative: 1
+- Creative: 2
 - Finance: 4
 - Reports: 1
 - Tech/Mobile: 1 (Reports 포함)
