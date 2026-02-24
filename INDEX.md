@@ -5,6 +5,11 @@
 ## 최근 리서치
 | 날짜 | 분야 | 제목 | 경로 | 신뢰도 |
 |------|------|------|------|--------|
+| 2026-02-23 | Finance/Analysis | 2026년 첨단 기술 기반 개인 투자 전략 및 미래 예측 | docs/finance/analysis/2026-02-23_2026년-투자-관련-리서치-및-미래-예측.md | medium |
+| 2026-02-23 | Finance/Strategy | 기술 투자 신호 체계 및 진입/퇴출 전략 | finance/2026-02-23_tech-investment-signals-entry-exit-strategy.md | high |
+| 2026-02-23 | Finance/Cleantech | 환경/클린테크 투자 동향 (2020-2023) | finance/2026-02-23_cleantech-investment-trends-2020-2023.md | high |
+| 2026-02-23 | Finance/AI | AI 기술 투자 동향 (2020-2023) | finance/2026-02-23_AI-investment-trends-2020-2023.md | high |
+| 2026-02-23 | Tech/Mobile | 안드로이드/모바일 기술 동향 (2020-2023) | _reports/2026-02-23_android-mobile-technology-trend-2020-2023.md | high |
 | 2026-02-22 | Gaming/Market | 하이퍼캐주얼 퍼블리셔 & 경쟁 구도 2025 | gaming/market/2026-02-22_hypercasual-publishers-competitive-landscape-2025.md | high |
 | 2026-02-22 | Gaming/Market | 하이퍼캐주얼 광고 수익화 & 프라이버시 정책 변화 분석 (2025) | gaming/market/2026-02-22_hypercasual-ad-monetization-privacy-2025.md | high |
 | 2026-02-22 | Gaming/Trends | 하이브리드 캐주얼 게임 트렌드 2025 | gaming/trends/2026-02-22_hybrid-casual-trend-2025.md | high |
@@ -18,5 +23,6 @@
 - Gaming: 8
 - Marketing: 0
 - Creative: 0
-- Finance: 0
-- Reports: 0
+- Finance: 4
+- Reports: 1
+- Tech/Mobile: 1 (Reports 포함)
